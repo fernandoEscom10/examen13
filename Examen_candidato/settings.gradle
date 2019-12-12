@@ -1,0 +1,2 @@
+include ':app', ':webapirequest'
+rootProject.name='Examen_candidato'
