@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Examen_candidato</string>
+    <string name="ir_URL">Ir al Sitio</string>
+    <string name="lugar">Lugar: %s</string>
+    <string name="conina">Cocina: %s</string>
+    <string name="horario">Horario: %s</string>
+    <string name="direccion">Dirección: %s</string>
 </resources>

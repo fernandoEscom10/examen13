@@ -3,6 +3,7 @@ package com.e.webapirequest.webApi.web;
 
 import android.util.Log;
 
+import com.e.webapirequest.webApi.dto.CollectionDATA;
 import com.e.webapirequest.webApi.dto.CollectionDTO;
 import com.e.webapirequest.webApi.parser.CollectionParser;
 
@@ -20,17 +21,15 @@ public class CollectionsRequest implements Callback<ResponseBody>, CollectionPar
 
 
     public interface OnResponseCollection{
-        void onResponseCollection(ArrayList<CollectionDTO> listado);
+        void onResponseCollection(ArrayList<CollectionDATA> listado);
         void onResponseErrorServidor();
-        void onResponseErrorConexion();
-        void onResponseTiempoEsperaAgotado();
         void onResponseSinConexion();
     }
 
-    public void makeRequest(Double lat, Double lon, int cuenta, OnResponseCollection listener){
+    public void makeRequest(int cuenta, OnResponseCollection listener){
         mListener = listener;
         WebApi.GetMethods getmethods = WebApi.getCliente().create(WebApi.GetMethods.class);
-        Call<ResponseBody> request = getmethods.requestObtenerLugares(856, cuenta);
+        Call<ResponseBody> request = getmethods.requestObtenerLugares(280, cuenta);
         Log.d("CollectionR", getClass().getName()+ "" +getmethods.requestObtenerLugares(856,cuenta).toString());
         request.enqueue(this);
     }
@@ -60,18 +59,21 @@ public class CollectionsRequest implements Callback<ResponseBody>, CollectionPar
     @Override
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         if (t.getCause().equals("TIMEOUT")){
-            mListener.onResponseTiempoEsperaAgotado();
+            mListener.onResponseSinConexion();
         }else{
-            mListener.onResponseErrorConexion();
+            mListener.onResponseErrorServidor();
         }
     }
-
 
     @Override
-    public void onResponseComplete(ArrayList<CollectionDTO> listado) {
+    public void onResponseComplete(ArrayList<CollectionDATA> listado) {
         if(listado != null && !listado.isEmpty()){
-
+            mListener.onResponseCollection(listado);
+        }else{
+            mListener.onResponseErrorServidor();
         }
 
     }
+
+
 }

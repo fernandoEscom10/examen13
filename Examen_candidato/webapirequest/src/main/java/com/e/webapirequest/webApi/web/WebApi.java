@@ -19,7 +19,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -154,7 +153,6 @@ public class WebApi {
             mRetrofitInstance = new Retrofit.Builder()
                     .baseUrl(API_URL)
                     .client(mOkHttpClient)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
 
@@ -239,8 +237,14 @@ public class WebApi {
                 KEY
         })
         @GET("collections")
-        Call<ResponseBody> requestObtenerLugares(@Query("city_id" )int city,
-                                                 @Query("count")int count);
+        Call<ResponseBody> requestObtenerLugares(@Query("city_id" )int city, @Query("count")int count);
+
+        @Headers({
+                ACEPT_JSON,
+                KEY
+        })
+        @GET("restaurant")
+        Call<ResponseBody> requestObtenerRestaurant(@Query("res_id")int id);
 
 
     }
