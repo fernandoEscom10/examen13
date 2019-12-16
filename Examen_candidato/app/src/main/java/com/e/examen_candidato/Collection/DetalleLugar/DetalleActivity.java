@@ -1,6 +1,7 @@
 package com.e.examen_candidato.Collection.DetalleLugar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +26,7 @@ public class DetalleActivity extends AppCompatActivity implements DetalleView {
     private DetallePresenter mPresenter;
     private LoaderDialogFragment loader;
     //elemtos de vista
+    private Toolbar mToolbar;
     private ImageView mImageViewPortada;
     private TextView mNombreLugar, mCocina, mHorario, mDireccion;
     private ImageButton mImageBtnUbicar;
@@ -40,6 +42,12 @@ public class DetalleActivity extends AppCompatActivity implements DetalleView {
         mPresenter = new DetallePresenter(this,new DetalleInteractor());
         mPresenter.getRestaurant(mIdRestaurant);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void bindListeners() {
@@ -62,6 +70,14 @@ public class DetalleActivity extends AppCompatActivity implements DetalleView {
         mDireccion = findViewById(R.id.tv_Direccion);
         mHorario = findViewById(R.id.tv_horario);
         mImageBtnUbicar = findViewById(R.id.button_ubicacion);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
     }
 
     private void obtenerInformacionBundle() {
